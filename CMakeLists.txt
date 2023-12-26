@@ -1,6 +1,22 @@
 cmake_minimum_required(VERSION 3.10)
 project(swanstation C CXX)
 
+# Target system
+SET(CMAKE_SYSTEM_NAME Linux)
+SET(CMAKE_SYSTEM_PROCESSOR armv7l)
+SET(CMAKE_SYSTEM_VERSION 1)
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard")
+
+include(CheckCXXCompilerFlag)
+
+function(check_cxx_flag flag var)
+    CHECK_CXX_COMPILER_FLAG("-Werror ${flag}" ${var})
+    if(${var})
+       set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${flag}" PARENT_SCOPE)
+    endif()
+endfunction()
+
 message("CMake Version: ${CMAKE_VERSION}")
 message("CMake System Name: ${CMAKE_SYSTEM_NAME}")
 
